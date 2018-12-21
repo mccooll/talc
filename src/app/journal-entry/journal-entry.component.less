@@ -1,0 +1,54 @@
+div.entry {
+	border-bottom: 1px dotted khaki;
+	border-top: 1px dotted khaki;
+	overflow: auto;
+}
+input.debit, input.credit {
+	text-align: right;
+	text-overflow: ellipsis;
+	width: 10rem;
+	max-width: 45vw;
+	vertical-align: top;
+	padding: 1rem;
+}
+input.credit {
+	border-left: 1px dashed khaki;
+}
+select.account {
+	width: 25rem;
+	max-width: 90vw;
+	padding: 1rem;
+}
+div.record {
+}
+input.date {
+	vertical-align:top;
+	float: left;
+	display: block;
+	padding: 1rem;
+}
+input.note {
+	clear:both;
+	display: block;
+	padding: 1rem;
+	width: 49rem;
+	max-width: 90vw;
+}
+div.details {
+	float:left;
+	vertical-align:top;
+	border-left: 1px dashed khaki;
+}
+input, select {
+	border:0;
+	background: none;
+}
+/* thanks to https://www.thatstevensguy.com/programming/disable-arrows-on-number-inputs/ */
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+select {
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}

@@ -1,4 +1,4 @@
-import AccountCategory from './AccountCategory'
+import Account from './Account'
 import JournalEntry from './JournalEntry'
 
 export default class JournalRecord {

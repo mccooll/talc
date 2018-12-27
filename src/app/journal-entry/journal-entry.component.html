@@ -5,9 +5,9 @@
 			<select class="account" [(ngModel)]="record.account">
 				<option [ngValue]="account" *ngFor="let account of accounts">{{account.name}}</option>
 			</select>
-			<input *ngIf="record.amount>=0" class="debit" type="number" step="0.01" min="0" [(ngModel)]="record.amount" />
+			<input *ngIf="record.amount>=0" class="debit" type="number" step="0.01" min="0" [(ngModel)]="record.debit" />
 			<input *ngIf="record.amount<0" class="debit" type="number" step="0.01" min="0" />
-			<input *ngIf="record.amount<0" class="credit" type="number" step="0.01" min="0" [(ngModel)]="record.amount" />
+			<input *ngIf="record.amount<0" class="credit" type="number" step="0.01" min="0" [(ngModel)]="record.credit" />
 			<input *ngIf="record.amount>=0" class="credit" type="number" step="0.01" min="0" />
 		</div>
 		<input class="note" type="text" [(ngModel)]="entry.note" />

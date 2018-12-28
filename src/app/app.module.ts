@@ -5,11 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { JournalEntryComponent } from './journal-entry/journal-entry.component';
 import { FormsModule } from '@angular/forms';
+import { JournalComponent } from './journal/journal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    JournalEntryComponent
+    JournalEntryComponent,
+    JournalComponent
   ],
   imports: [
     BrowserModule,

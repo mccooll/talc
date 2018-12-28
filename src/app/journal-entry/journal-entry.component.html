@@ -1,14 +1,17 @@
 <div class="entry">
-	<input class="date" type="date" [(ngModel)]="instantFormatted" />
+	<div class="date">
+		<input type="date" [(ngModel)]="instantFormatted" />
+		<p class="delete" (click)="delete">✗</p>
+	</div>
 	<div class="details">
 		<div class="record" *ngFor="let record of entry.journalRecords">
 			<select class="account" [(ngModel)]="record.account">
 				<option [ngValue]="account" *ngFor="let account of accounts">{{account.name}}</option>
 			</select>
 			<input *ngIf="record.amount>=0" class="debit" type="number" step="0.01" min="0" [(ngModel)]="record.debit" />
-			<input *ngIf="record.amount<0" class="debit" type="number" step="0.01" min="0" />
+			<input *ngIf="record.amount<0 || record.amount==null" class="debit" type="number" step="0.01" min="0" />
 			<input *ngIf="record.amount<0" class="credit" type="number" step="0.01" min="0" [(ngModel)]="record.credit" />
-			<input *ngIf="record.amount>=0" class="credit" type="number" step="0.01" min="0" />
+			<input *ngIf="record.amount>=0 || record.amount==null" class="credit" type="number" step="0.01" min="0" />
 		</div>
 		<input class="note" type="text" [(ngModel)]="entry.note" />
 	</div>

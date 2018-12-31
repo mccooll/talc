@@ -3,6 +3,7 @@ import JournalEntry from './model/JournalEntry'
 import JournalRecord from './model/JournalRecord'
 import Account from './model/Account'
 import AccountType from './model/AccountType'
+import PouchDB from 'pouchdb';
 
 
 @Component({
@@ -16,6 +17,18 @@ export class AppComponent {
   accounts: Account[];
 
   constructor() {
+  	var db = new PouchDB('kittens');
+  	var db2 = new PouchDB('http://dave:pwd@10.1.1.148:5985/kittens');
+ //  	var syncHandler = db.sync(db2, {
+	//   live: true,
+	//   retry: true
+	// }).on('change', function (change) {
+	//   // yo, something changed!
+	//   console.log(change);
+	// });
+  	db2.info().then(function (info) {
+	  console.log(info);
+	})
   	this.entries = [];
   	let dr = new AccountType();
   	dr.code = false;
@@ -55,6 +68,14 @@ export class AppComponent {
   	this.entries[1].journalRecords = [];
   	this.entries[1].journalRecords.push(c);
   	this.entries[1].journalRecords.push(d);
+  	this.entries[1]._id = "mittens";
+  	//db.put(this.entries[1]);
+  	db.get('mittens').then(function (doc) {
+	  console.log(doc);
+	  //doc.note = "Bill for chewing gum..";
+	  //return db.put(doc);
+	  //db.remove(doc);
+	});
   	this.accounts = [cash,expense];
   }
 }

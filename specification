@@ -51,3 +51,10 @@ Amounts
 Journal Entry
 Journal Collection
 Account Collection
+
+Database Saving:
+Journal Entry - when it's valid & is new/updated OR when it's deleted
+for now let's keep accounts hardcoded
+
+Database Model Refresh:
+Let's say server always wins (for simplicity), but user view item gets new background until edit (gradient light green to light yellow)

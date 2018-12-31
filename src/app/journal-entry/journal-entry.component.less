@@ -2,6 +2,11 @@ div.entry {
 	border-bottom: 1px dotted khaki;
 	border-top: 1px dotted khaki;
 	overflow: auto;
+	opacity: 1;
+	transition: opacity; /* not sure on syntax */
+}
+div.entry.deleting { /* not sure on syntax */
+	opacity: 0;
 }
 input.debit, input.credit {
 	text-align: right;
@@ -58,4 +63,9 @@ select {
 	color: indianred;
 	padding: 1rem;
 	margin: 0;
+	display: inline;
+	opacity: 0.25;
+}
+.delete:hover {
+	opacity:1;
 }

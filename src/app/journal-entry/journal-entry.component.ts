@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import JournalEntry from '../model/JournalEntry';
 import JournalRecord from '../model/JournalRecord';
 import { Observable } from 'rxjs';
+import { JournalService } from '../journal.service'
 
 @Component({
   selector: 'app-journal-entry',
@@ -14,7 +15,7 @@ export class JournalEntryComponent implements OnInit {
   private blankRecord: JournalRecord;
   private deleting: Boolean;
 
-  constructor() {
+  constructor(private journalService: JournalService) {
   	//this.blankRecord$.subscribe(jr => console.log(jr));
   	this.blankRecord = new JournalRecord();
   	this.blankRecord.account = null;
@@ -34,10 +35,18 @@ export class JournalEntryComponent implements OnInit {
   	this.entry.instant.setTime(newDate.getTime());
   }
 
-  delete(index) {
+  deleteRecord(index) {
   	let deleted = this.entry.journalRecords.splice(index,1);
   	console.log(this.entry);
   	return deleted;
+  }
+
+  delete() {
+  	//hacky
+  	this.deleting = true;
+  	setTimeout(()=> {
+  	  this.journalService.deleteJournal(this.entry);
+  	}, 1000);
   }
 
   onChange() {

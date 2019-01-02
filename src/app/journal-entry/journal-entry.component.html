@@ -1,11 +1,11 @@
-<div class="entry" *ngClass="deleting: deleting">
+<div class="entry" [ngClass]="{'deleting': deleting}">
 	<div class="date">
-		<p class="delete" *ngIf="entry.instant || entry.note || entry.journalRecords" (click)="delete">✗</p>
+		<p class="delete" *ngIf="entry.instant || entry.note || entry.journalRecords" (click)="delete()">✗</p>
 		<input type="date" [(ngModel)]="instantFormatted" />
 	</div>
 	<div class="details">
 		<div class="record" *ngFor="let record of entry.journalRecords; let i = index">
-			<p class="delete" *ngIf="record.amount || record.account" (click)="delete(i)">✗</p>
+			<p class="delete" *ngIf="record.amount || record.account" (click)="deleteRecord(i)">✗</p>
 			<select class="account" [(ngModel)]="record.account">
 				<option [ngValue]="account" *ngFor="let account of accounts">{{account.name}}</option>
 			</select>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import JournalEntry from '../model/JournalEntry';
 import JournalRecord from '../model/JournalRecord';
 import { Observable } from 'rxjs';
@@ -12,6 +12,7 @@ import { JournalService } from '../journal.service'
 export class JournalEntryComponent implements OnInit {
   @Input() entry: JournalEntry;
   @Input() accounts: Account[];
+  @Output() blanket: EventEmitter<any> = new EventEmitter();
   private blankRecord: JournalRecord;
   private deleting: Boolean;
 
@@ -27,11 +28,14 @@ export class JournalEntryComponent implements OnInit {
   }
 
   get instantFormatted() {
-  	return this.entry.instant.toISOString().substring(0, 10);
+  	return this.entry.instant ? this.entry.instant.toISOString().substring(0, 10) : null;
   }
 
   set instantFormatted(e) {
   	let newDate = new Date(e);
+  	if(!this.entry.instant) {
+  		this.entry.instant = new Date();
+  	}
   	this.entry.instant.setTime(newDate.getTime());
   }
 
@@ -49,7 +53,7 @@ export class JournalEntryComponent implements OnInit {
   	}, 1000);
   }
 
-  onChange() {
+  onBlankChange() {
   	let newRecord = new JournalRecord();
   	newRecord.account = this.blankRecord.account;
   	newRecord.amount = this.blankRecord.amount;
@@ -58,6 +62,14 @@ export class JournalEntryComponent implements OnInit {
   	  this.blankRecord.account = null;
   	  this.blankRecord.amount = null;
   	})
+  	this.onChange();
   	//problem here: typing in a number immediately creates a new record and interrupts input focus (maybe we need a debounce delay on this with an observable)
+  }
+
+  onChange() {
+  	console.log(this.entry.isValid());
+  	if(this.entry.isValid()) {
+  	  this.blanket.emit(null);
+  	}
   }
 }

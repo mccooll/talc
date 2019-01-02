@@ -1,27 +1,25 @@
 <div class="entry" [ngClass]="{'deleting': deleting}">
 	<div class="date">
 		<p class="delete" *ngIf="entry.instant || entry.note || entry.journalRecords" (click)="delete()">✗</p>
-		<input type="date" [(ngModel)]="instantFormatted" />
+		<input type="date" [(ngModel)]="instantFormatted" (ngModelChange)="onChange()" />
 	</div>
 	<div class="details">
 		<div class="record" *ngFor="let record of entry.journalRecords; let i = index">
 			<p class="delete" *ngIf="record.amount || record.account" (click)="deleteRecord(i)">✗</p>
-			<select class="account" [(ngModel)]="record.account">
+			<select class="account" [(ngModel)]="record.account" (ngModelChange)="onChange()">
 				<option [ngValue]="account" *ngFor="let account of accounts">{{account.name}}</option>
 			</select>
-			<input *ngIf="record.amount>=0" class="debit" type="number" step="0.01" min="0" [(ngModel)]="record.debit" />
-			<input *ngIf="record.amount<0 || record.amount==null" class="debit" type="number" step="0.01" min="0" />
-			<input *ngIf="record.amount<0" class="credit" type="number" step="0.01" min="0" [(ngModel)]="record.credit" />
-			<input *ngIf="record.amount>=0 || record.amount==null" class="credit" type="number" step="0.01" min="0" />
+			<input class="debit" type="number" step="0.01" min="0" [(ngModel)]="record.debit" (ngModelChange)="onChange()" />
+			<input class="credit" type="number" step="0.01" min="0" [(ngModel)]="record.credit" (ngModelChange)="onChange()" />
 		</div>
 		<div class="record">
-			<select class="account" [(ngModel)]="blankRecord.account" (ngModelChange)="onChange($event)">
+			<select class="account" [(ngModel)]="blankRecord.account" (ngModelChange)="onBlankChange()">
 				<option [ngValue]="account" *ngFor="let account of accounts">{{account.name}}</option>
 			</select>
-			<input class="debit" type="number" step="0.01" min="0" [(ngModel)]="blankRecord.debit" (ngModelChange)="onChange($event)" />
-			<input class="credit" type="number" step="0.01" min="0" [(ngModel)]="blankRecord.credit" (ngModelChange)="onChange($event)" />
+			<input class="debit" type="number" step="0.01" min="0" [(ngModel)]="blankRecord.debit" (ngModelChange)="onBlankChange()" />
+			<input class="credit" type="number" step="0.01" min="0" [(ngModel)]="blankRecord.credit" (ngModelChange)="onBlankChange()" />
 		</div>
 
-		<input class="note" type="text" [(ngModel)]="entry.note" />
+		<input class="note" type="text" [(ngModel)]="entry.note" (ngModelChange)="onChange()" />
 	</div>
 </div>

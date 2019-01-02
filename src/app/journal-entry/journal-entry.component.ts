@@ -54,8 +54,10 @@ export class JournalEntryComponent implements OnInit {
   	newRecord.account = this.blankRecord.account;
   	newRecord.amount = this.blankRecord.amount;
   	this.entry.journalRecords.push(newRecord);
-  	this.blankRecord.account = null;
-  	this.blankRecord.amount = null;
-  	//problem here: this is not updating in the view (neither account nor amount): it's like the binding is one-way. I wonder if an observable would fix this -> event to observable
+  	setTimeout(()=> {
+  	  this.blankRecord.account = null;
+  	  this.blankRecord.amount = null;
+  	})
+  	//problem here: typing in a number immediately creates a new record and interrupts input focus (maybe we need a debounce delay on this with an observable)
   }
 }

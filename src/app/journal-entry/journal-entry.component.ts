@@ -67,7 +67,6 @@ export class JournalEntryComponent implements OnInit {
   }
 
   onChange() {
-  	console.log(this.entry.isValid());
   	if(this.entry.isValid()) {
   	  this.blanket.emit(null);
   	}

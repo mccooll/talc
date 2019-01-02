@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { AccountService } from './account.service'
 import JournalEntry from './model/JournalEntry'
 import JournalRecord from './model/JournalRecord'
+import PouchDB from 'pouchdb';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class JournalService implements OnInit {
   ngOnInit() {
   }
 
-  getJournals(): JournalEntry[] {
+  getEntries(): JournalEntry[] {
   	let accounts = this.accountService.getAccounts();
   	let cash = accounts[0];
   	let expense = accounts[1];
@@ -50,9 +51,15 @@ export class JournalService implements OnInit {
   	return this.entries;
   }
 
-  deleteJournal(j: JournalEntry): JournalEntry[] {
+  deleteEntry(j: JournalEntry): JournalEntry[] {
   	let index = this.entries.indexOf(j);
   	let deleted: JournalEntry[] = this.entries.splice(index,1);
   	return deleted;
+  }
+
+  commitEntry(j: JournalEntry): Boolean {
+  	var db = new PouchDB('kittens');
+  	db.put(this.entries[1]);
+  	return true;
   }
 }

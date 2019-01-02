@@ -49,7 +49,7 @@ export class JournalEntryComponent implements OnInit {
   	//hacky
   	this.deleting = true;
   	setTimeout(()=> {
-  	  this.journalService.deleteJournal(this.entry);
+  	  this.journalService.deleteEntry(this.entry);
   	}, 1000);
   }
 
@@ -69,6 +69,7 @@ export class JournalEntryComponent implements OnInit {
   onChange() {
   	if(this.entry.isValid()) {
   	  this.blanket.emit(null);
+  	  this.entry.getCommittable();
   	}
   }
 }

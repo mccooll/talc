@@ -6,6 +6,11 @@ export default class JournalRecord {
   account: Account;
   journalEntry: JournalEntry;
 
+  constructor(obj: any, accounts: Account[]) {
+  	this.amount = obj.amount;
+  	this.account = accounts.find((a)=>a.number===obj.number);
+  }
+
   get debit() {
   	return this.amount > 0 ? this.amount: null;
   }
@@ -21,5 +26,13 @@ export default class JournalRecord {
   set credit(n) {
   	if(n > 0) this.amount = -1*n;
   	else if(n===null) this.amount = n;
+  }
+
+  getCommittable(): Object {
+  	let saveable: Object = {
+  	  amount: this.amount,
+  	  account: this.account.number
+  	};
+  	return saveable;
   }
 }

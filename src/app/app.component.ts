@@ -23,7 +23,7 @@ export class AppComponent implements OnInit  {
   }
 
   ngOnInit() {
-  	this.entries = this.journalService.getJournals();
+  	this.entries = this.journalService.getEntries();
   	//console.log(this.entries);
   	this.accounts = this.accountService.getAccounts();
   	var db = new PouchDB('kittens');

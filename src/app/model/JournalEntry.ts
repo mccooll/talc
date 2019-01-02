@@ -1,10 +1,19 @@
 import JournalRecord from './JournalRecord'
+import Account from './Account'
 
 export default class JournalEntry {
-  _id: string;
+  private _rev: string;
   instant: Date;
   note: string;
   journalRecords: JournalRecord[] = [];
+
+  constructor(obj:any, accounts:Account[]) {
+  	this.instant = new Date(obj._id);
+  	delete obj._id;
+  	this.journalRecords = obj.journalRecords.map((jr)=>new JournalRecord(jr, accounts));
+  	delete obj.journalRecords;
+  	Object.assign(this,obj);
+  }
 
   isValid(): Boolean {
   	if(!this.instant) {
@@ -31,5 +40,19 @@ export default class JournalEntry {
   		return false;
   	}
   	return true;
+  }
+
+  private getId() {
+  	return this.instant.getTime();
+  }
+
+  getCommittable(): Object {
+  	let saveable: Object = {
+  	  _id: this.instant.getTime(),
+  	  _rev: this._rev,
+  	  note: this.note,
+  	  journalRecords: this.journalRecords.map((jr)=>jr.getCommittable())
+  	};
+  	return saveable;
   }
 }

@@ -20,7 +20,6 @@ export class JournalComponent implements OnInit {
   }
 
   addValidBlank():void {
-  	console.log('gotit');
   	let newEntry = this.blankEntry;
   	this.entries.push(newEntry);
   	setTimeout(()=> {

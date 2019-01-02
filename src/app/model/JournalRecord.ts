@@ -11,7 +11,7 @@ export default class JournalRecord {
   }
 
   set debit(n) {
-  	if(n > 0) this.amount = n;
+  	if(n===null || n > 0) this.amount = n;
   }
 
   get credit() {
@@ -20,5 +20,6 @@ export default class JournalRecord {
 
   set credit(n) {
   	if(n > 0) this.amount = -1*n;
+  	else if(n===null) this.amount = n;
   }
 }

@@ -21,12 +21,12 @@ export class JournalComponent implements OnInit {
 
   addValidBlank():void {
   	let newEntry = this.blankEntry;
-  	this.entries.push(newEntry);
+  	this.entries.unshift(newEntry); //we may want to insert the record in order, although this seems to defeat the ability to easily continue editing. this.entries.find(Date>newentry.date)
   	setTimeout(()=> {
   	  this.blankEntry = new JournalEntry();
   	})
   	//problem here: typing in a number immediately creates a new record and interrupts input focus (maybe we need a debounce delay on this with an observable)
-  	//another problem: it's added to the bottom
+  	//another problem: it's added to the bottom (unshift instead of push)
   	return;
   }
 }

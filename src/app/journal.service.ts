@@ -59,7 +59,7 @@ export class JournalService implements OnInit {
   	let accounts = this.accountService.getAccounts();
   	this.db.allDocs({
   		include_docs: true,
-  		startkey: 0
+      descending: true
   	}).then((result) => {
   	  console.log(result.rows);
   	  result.rows.forEach((row)=> {

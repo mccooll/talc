@@ -61,7 +61,7 @@ export class JournalEntryComponent implements OnInit {
   	}, 1000);
   }
 
-  onBlankChange() {
+  onBlankRecordChange() {
   	let newRecord = new JournalRecord();
   	newRecord.account = this.blankRecord.account;
   	newRecord.amount = this.blankRecord.amount;

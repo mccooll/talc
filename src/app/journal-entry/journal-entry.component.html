@@ -13,11 +13,11 @@
 			<input [disabled]="record.amount !==null && !record.credit" class="credit" type="number" step="0.01" min="0" [(ngModel)]="record.credit" (ngModelChange)="onChange()" />
 		</div>
 		<div class="record">
-			<select class="account" [(ngModel)]="blankRecord.account" (ngModelChange)="onBlankChange()">
+			<select class="account" [(ngModel)]="blankRecord.account" (ngModelChange)="onBlankRecordChange()">
 				<option [ngValue]="account" *ngFor="let account of accounts">{{account.name}}</option>
 			</select>
-			<input class="debit" type="number" step="0.01" min="0" [(ngModel)]="blankRecord.debit" (ngModelChange)="onBlankChange()" />
-			<input class="credit" type="number" step="0.01" min="0" [(ngModel)]="blankRecord.credit" (ngModelChange)="onBlankChange()" />
+			<input class="debit" type="number" step="0.01" min="0" [(ngModel)]="blankRecord.debit" (ngModelChange)="onBlankRecordChange()" />
+			<input class="credit" type="number" step="0.01" min="0" [(ngModel)]="blankRecord.credit" (ngModelChange)="onBlankRecordChange()" />
 		</div>
 
 		<input class="note" type="text" [(ngModel)]="entry.note" (ngModelChange)="onChange()" />

@@ -28,11 +28,19 @@ export class JournalEntryComponent implements OnInit {
   }
 
   get instantFormatted() {
+  	//console.log(this.entry.instant ? this.entry.instant.toISOString().substring(0, 10) : null);
   	return this.entry.instant ? this.entry.instant.toISOString().substring(0, 10) : null;
   }
 
   set instantFormatted(e) {
+  	//need to try to keep the same hours, seconds, milliseconds on edits
+  	//console.log(e);
+  	//let newDate = new Date(Date.UTC(e));
   	let newDate = new Date(e);
+  	let now = new Date();
+  	//console.log(newDate);
+  	newDate.setHours(now.getHours(),now.getMinutes(),now.getSeconds(),now.getMilliseconds());
+  	//console.log(newDate);
   	if(!this.entry.instant) {
   		this.entry.instant = new Date();
   	}
@@ -69,7 +77,7 @@ export class JournalEntryComponent implements OnInit {
   onChange() {
   	if(this.entry.isValid()) {
   	  this.blanket.emit(null);
-  	  this.entry.getCommittable();
+  	  this.journalService.commitEntry(this.entry);
   	}
   }
 }

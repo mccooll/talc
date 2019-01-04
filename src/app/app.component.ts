@@ -23,10 +23,10 @@ export class AppComponent implements OnInit  {
   }
 
   ngOnInit() {
-  	this.entries = this.journalService.getEntries();
+  	this.entries = this.journalService.getEntries({start:0});
   	//console.log(this.entries);
   	this.accounts = this.accountService.getAccounts();
-  	var db = new PouchDB('kittens');
+  	//var db = new PouchDB('kittens');
   	//var db2 = new PouchDB('http://dave:pwd@10.1.1.148:5985/kittens');
  //  	var syncHandler = db.sync(db2, {
 	//   live: true,
@@ -39,11 +39,11 @@ export class AppComponent implements OnInit  {
 	//   console.log(info);
 	// })
   	//db.put(this.entries[1]);
-  	db.get('mittens').then(function (doc) {
-	  console.log(doc);
-	  //doc.note = "Bill for chewing gum..";
-	  //return db.put(doc);
-	  //db.remove(doc);
-	});
+ //  	db.get('mittens').then(function (doc) {
+	//   console.log(doc);
+	//   //doc.note = "Bill for chewing gum..";
+	//   //return db.put(doc);
+	//   //db.remove(doc);
+	// });
   }
 }

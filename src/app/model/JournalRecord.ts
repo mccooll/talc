@@ -6,9 +6,11 @@ export default class JournalRecord {
   account: Account;
   journalEntry: JournalEntry;
 
-  constructor(obj: any, accounts: Account[]) {
-  	this.amount = obj.amount;
-  	this.account = accounts.find((a)=>a.number===obj.number);
+  constructor(obj?: any, accounts?: Account[]) {
+  	if(obj && accounts) {
+	  this.amount = obj.amount;
+	  this.account = accounts.find((a)=>a.number===obj.account);
+	}
   }
 
   get debit() {

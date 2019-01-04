@@ -8,15 +8,18 @@ import PouchDB from 'pouchdb';
   providedIn: 'root'
 })
 export class JournalService implements OnInit {
-  entries: JournalEntry[];
+  entries: JournalEntry[] = [];
+  db: any;
 
   constructor(private accountService: AccountService) {
+  	this.db = new PouchDB('talc-test');
   }
 
   ngOnInit() {
+
   }
 
-  getEntries(): JournalEntry[] {
+  getEntriesOld(): JournalEntry[] {
   	let accounts = this.accountService.getAccounts();
   	let cash = accounts[0];
   	let expense = accounts[1];
@@ -45,9 +48,27 @@ export class JournalService implements OnInit {
   	this.entries[1].journalRecords = [];
   	this.entries[1].journalRecords.push(c);
   	this.entries[1].journalRecords.push(d);
-  	this.entries[1]._id = "mittens";
+  	//this.entries[1]._id = "mittens";
   	console.log('hi');
   	console.log(this.entries);
+  	return this.entries;
+  }
+
+  getEntries(filter:object): JournalEntry[] {
+  	//uh oh - async - we gonna need observables
+  	let accounts = this.accountService.getAccounts();
+  	this.db.allDocs({
+  		include_docs: true,
+  		startkey: 0
+  	}).then((result) => {
+  	  console.log(result.rows);
+  	  result.rows.forEach((row)=> {
+  	  	this.entries.push(new JournalEntry(row.doc,accounts));
+  	  });
+  	  console.log(this.entries);
+  	});
+  	// filter.start
+  	// filter.end
   	return this.entries;
   }
 
@@ -58,8 +79,7 @@ export class JournalService implements OnInit {
   }
 
   commitEntry(j: JournalEntry): Boolean {
-  	var db = new PouchDB('kittens');
-  	db.put(this.entries[1]);
+  	this.db.put(j.getCommittable());
   	return true;
   }
 }

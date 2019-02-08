@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import JournalEntry from '../model/JournalEntry';
 import JournalRecord from '../model/JournalRecord';
 import { Observable } from 'rxjs';
@@ -10,6 +10,7 @@ import { JournalService } from '../journal.service'
   styleUrls: ['./journal-entry.component.less']
 })
 export class JournalEntryComponent implements OnInit {
+  @ViewChild('records') records: any;
   @Input() entry: JournalEntry;
   @Input() accounts: Account[];
   @Output() blanket: EventEmitter<any> = new EventEmitter();
@@ -62,16 +63,25 @@ export class JournalEntryComponent implements OnInit {
   }
 
   onBlankRecordChange() {
-  	let newRecord = new JournalRecord();
-  	newRecord.account = this.blankRecord.account;
-  	newRecord.amount = this.blankRecord.amount;
-  	this.entry.journalRecords.push(newRecord);
-  	setTimeout(()=> {
-  	  this.blankRecord.account = null;
-  	  this.blankRecord.amount = null;
-  	})
-  	this.onChange();
-  	//problem here: typing in a number immediately creates a new record and interrupts input focus (maybe we need a debounce delay on this with an observable)
+    if(this.blankRecord.account || this.blankRecord.amount) {
+      let newRecord = new JournalRecord();
+      newRecord.account = this.blankRecord.account;
+      newRecord.amount = this.blankRecord.amount;
+      this.entry.journalRecords.push(newRecord);
+      this.onChange();
+      setTimeout(()=> {
+        this.blankRecord.account = null;
+        this.blankRecord.amount = null;
+      });
+      setTimeout(()=> {
+        let index = 1;
+        if(this.entry.journalRecords[this.entry.journalRecords.length-1].debit > 0)
+        {
+          index = 0;
+        }
+        this.records.nativeElement.lastChild.getElementsByTagName('input')[index].focus(); // this is awkward, also a user preference
+      });
+    }
   }
 
   onChange() {

@@ -51,6 +51,7 @@ export class JournalEntryComponent implements OnInit {
   deleteRecord(index) {
   	let deleted = this.entry.journalRecords.splice(index,1);
   	console.log(this.entry);
+    this.onChange();
   	return deleted;
   }
 

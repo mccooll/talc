@@ -75,6 +75,7 @@ export class JournalService implements OnInit {
   deleteEntry(j: JournalEntry): JournalEntry[] {
   	let index = this.entries.indexOf(j);
   	let deleted: JournalEntry[] = this.entries.splice(index,1);
+    this.db.remove(j.getCommittable());
   	return deleted;
   }
 

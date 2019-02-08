@@ -45,12 +45,12 @@ export default class JournalEntry {
   }
 
   private getId() {
-  	return this.instant.getTime();
+  	return this.instant.getTime().toString();
   }
 
   getCommittable(): Object {
   	let saveable: Object = {
-  	  _id: this.instant.getTime().toString(),
+  	  _id: this.getId(),
   	  _rev: this._rev,
   	  note: this.note,
   	  journalRecords: this.journalRecords.map((jr)=>jr.getCommittable())

@@ -7,16 +7,19 @@ import PouchDB from 'pouchdb';
 @Injectable({
   providedIn: 'root'
 })
-export class JournalService implements OnInit {
+export class JournalService {
   entries: JournalEntry[] = [];
   db: any;
+  remotedb: any;
 
   constructor(private accountService: AccountService) {
   	this.db = new PouchDB('talc-test');
-  }
-
-  ngOnInit() {
-
+    this.remotedb = new PouchDB('http://rave:amazingbsd@192.168.1.11:5985/talc-test');
+    console.log('constructed');
+    this.db.sync(this.remotedb, {
+      live: true,
+      retry: true
+    });
   }
 
   getEntriesOld(): JournalEntry[] {

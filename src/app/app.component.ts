@@ -4,6 +4,7 @@ import JournalEntry from './model/JournalEntry'
 import Account from './model/Account'
 import { AccountService } from './account.service'
 import { JournalService } from './journal.service'
+import { bindCallback, Observable, of } from 'rxjs';
 
 
 
@@ -14,7 +15,7 @@ import { JournalService } from './journal.service'
 })
 export class AppComponent implements OnInit  {
   title = 'TALC';
-  entries: JournalEntry[];
+  //entries$: Observable<JournalEntry[]>;
   accounts: Account[];
 
   constructor(private accountService: AccountService, private journalService: JournalService) {
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit  {
   }
 
   ngOnInit() {
-  	this.entries = this.journalService.getEntries({start:0});
+  	//this.entries$ = this.journalService.getEntries({start:0});
   	//console.log(this.entries);
   	this.accounts = this.accountService.getAccounts();
   	//var db = new PouchDB('kittens');

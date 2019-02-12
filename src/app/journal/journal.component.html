@@ -1,4 +1,4 @@
 <div class="gj">
 	<app-journal-entry [entry]="blankEntry" [accounts]="accounts" (blanket)="addValidBlank()"></app-journal-entry>
-	<app-journal-entry *ngFor="let entry of entries" [entry]="entry" [accounts]="accounts"></app-journal-entry>
+	<app-journal-entry *ngFor="let entry of entries$ | async" [entry]="entry" [accounts]="accounts"></app-journal-entry>
 </div>

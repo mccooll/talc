@@ -3,7 +3,7 @@ import { AccountService } from './account.service'
 import JournalEntry from './model/JournalEntry'
 import JournalRecord from './model/JournalRecord'
 import PouchDB from 'pouchdb';
-import { bindCallback } from 'rxjs';
+import { bindCallback, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +66,7 @@ export class JournalService {
   	return this.entries;
   }
 
-  getEntries(filter:object): JournalEntry[] {
+  getEntries(filter:object): Observable<JournalEntry[]> {
   	//uh oh - async - we gonna need observables
   	let accounts = this.accountService.getAccounts();
   	this.db.allDocs({
@@ -81,7 +81,7 @@ export class JournalService {
   	});
   	// filter.start
   	// filter.end
-  	return this.entries;
+  	return of(this.entries);
   }
 
   deleteEntry(j: JournalEntry): JournalEntry[] {

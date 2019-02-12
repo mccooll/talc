@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import JournalEntry from '../model/JournalEntry';
-
+import { bindCallback, Observable, of } from 'rxjs';
+import { JournalService } from '../journal.service'
 
 @Component({
   selector: 'app-journal',
@@ -8,20 +9,24 @@ import JournalEntry from '../model/JournalEntry';
   styleUrls: ['./journal.component.less']
 })
 export class JournalComponent implements OnInit {
-  @Input() entries: JournalEntry[];
+  @Input() entries$: Observable<JournalEntry[]>;
   @Input() accounts: Account[];
   blankEntry: JournalEntry;
 
-  constructor() {
+  constructor(private journalService: JournalService) {
   	this.blankEntry = new JournalEntry();
   }
 
   ngOnInit() {
+    // this.entries$.subscribe((entries) => {
+    //   console.log('hi');
+    // })
+    this.entries$ = this.journalService.getEntries({start:0});
   }
 
   addValidBlank():void {
   	let newEntry = this.blankEntry;
-  	this.entries.unshift(newEntry); //we may want to insert the record in order, although this seems to defeat the ability to easily continue editing. this.entries.find(Date>newentry.date)
+  	//this.entries.unshift(newEntry); //we may want to insert the record in order, although this seems to defeat the ability to easily continue editing. this.entries.find(Date>newentry.date)
   	setTimeout(()=> {
   	  this.blankEntry = new JournalEntry();
   	})

@@ -3,6 +3,7 @@ import { AccountService } from './account.service'
 import JournalEntry from './model/JournalEntry'
 import JournalRecord from './model/JournalRecord'
 import PouchDB from 'pouchdb';
+import { bindCallback } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,18 @@ export class JournalService {
   	this.db = new PouchDB('talc-test');
     this.remotedb = new PouchDB('http://rave:amazingbsd@192.168.1.11:5985/talc-test');
     console.log('constructed');
-    this.db.sync(this.remotedb, {
+    const sync = this.db.sync(this.remotedb, {
       live: true,
       retry: true
     });
+    const getSyncAsObservable = bindCallback(sync.on);
+    getSyncAsObservable.call(sync, 'change').subscribe(x => console.log(x), e => console.error(e));
+    // const result = getSyncAsObservable('change');
+    // result.subscribe(x => console.log(x), e => console.error(e));
+    // .on('change', function (change) {
+    //   console.log(change);
+    //   this.getEntries();
+    // });
   }
 
   getEntriesOld(): JournalEntry[] {

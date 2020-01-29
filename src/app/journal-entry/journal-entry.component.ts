@@ -10,7 +10,7 @@ import { JournalService } from '../journal.service'
   styleUrls: ['./journal-entry.component.less']
 })
 export class JournalEntryComponent implements OnInit {
-  @ViewChild('records') records: any;
+  @ViewChild('records', {static: false}) records: any;
   @Input() entry: JournalEntry;
   @Input() accounts: Account[];
   @Output() blanket: EventEmitter<any> = new EventEmitter();

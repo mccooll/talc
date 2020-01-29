@@ -1,8 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { AccountService } from './account.service'
+import { DatabaseService } from './database.service'
 import JournalEntry from './model/JournalEntry'
 import JournalRecord from './model/JournalRecord'
-import PouchDB from 'pouchdb';
 import { bindCallback, Observable, of } from 'rxjs';
 
 @Injectable({
@@ -13,9 +13,9 @@ export class JournalService {
   db: any;
   remotedb: any;
 
-  constructor(private accountService: AccountService) {
-  	this.db = new PouchDB('talc-test');
-    this.remotedb = new PouchDB('http://rave:amazingbsd@192.168.1.11:5985/talc-test');
+  constructor(private accountService: AccountService, private data: DatabaseService) {
+  	this.db = this.data.db;
+    this.remotedb = this.data.remotedb;
     console.log('constructed');
     const sync = this.db.sync(this.remotedb, {
       live: true,

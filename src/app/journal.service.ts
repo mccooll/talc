@@ -56,7 +56,11 @@ export class JournalService {
   }
 
   commitEntry(j: JournalEntry): Boolean {
-  	this.db.put(j.getCommittable());
+  	this.db.put(j.getCommittable()).then(function (response) {
+      if(response && response.ok && response.rev) {
+        j.setRev(response.rev);
+      }
+    });
   	return true;
   }
 }

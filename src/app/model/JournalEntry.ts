@@ -57,4 +57,8 @@ export default class JournalEntry {
   	};
   	return saveable;
   }
+
+  setRev(rev:string) {
+    this._rev = rev;
+  }
 }

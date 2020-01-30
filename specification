@@ -58,3 +58,8 @@ for now let's keep accounts hardcoded
 
 Database Model Refresh:
 Let's say server always wins (for simplicity), but user view item gets new background until edit (gradient light green to light yellow)
+
+Auth:
+Admin to create users
+confirm user=author on post, https://docs.couchdb.org/en/2.3.1/ddocs/ddocs.html#validate-document-update-functions, 
+https://github.com/pouchdb-community/pouchdb-authentication/blob/master/docs/api.md#dbloginusername-password--options--callback ??

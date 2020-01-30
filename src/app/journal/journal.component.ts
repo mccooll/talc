@@ -18,9 +18,6 @@ export class JournalComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.entries$.subscribe((entries) => {
-    //   console.log('hi');
-    // })
     this.entries$ = this.journalService.getEntries({start:0});
   }
 

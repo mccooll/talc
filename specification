@@ -63,3 +63,7 @@ Auth:
 Admin to create users
 confirm user=author on post, https://docs.couchdb.org/en/2.3.1/ddocs/ddocs.html#validate-document-update-functions, 
 https://github.com/pouchdb-community/pouchdb-authentication/blob/master/docs/api.md#dbloginusername-password--options--callback ??
+
+Conflict Resolution:
+- sync conflicts (local save successful, conflict server-side) - failed user fixes, all users notified
+- local save failure - failed user fixes - no overwrite of unsaved record

@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import JournalEntry from '../model/JournalEntry';
 import JournalRecord from '../model/JournalRecord';
-import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { JournalService } from '../journal.service'
 
 @Component({
@@ -16,32 +17,30 @@ export class JournalEntryComponent implements OnInit {
   @Output() blanket: EventEmitter<any> = new EventEmitter();
   private blankRecord: JournalRecord;
   private deleting: Boolean;
+  private updates : Subject<JournalEntry> = new Subject();
 
   constructor(private journalService: JournalService) {
-  	//this.blankRecord$.subscribe(jr => console.log(jr));
   	this.blankRecord = new JournalRecord();
   	this.blankRecord.account = null;
   	this.blankRecord.credit = null;
   	this.blankRecord.debit = null;
+    this.updates.pipe(debounceTime(1500)).subscribe(j =>{
+       this.commit(j);
+    });
   }
 
   ngOnInit() {
   }
 
   get instantFormatted() {
-  	//console.log(this.entry.instant ? this.entry.instant.toISOString().substring(0, 10) : null);
   	return this.entry.instant ? this.entry.instant.toISOString().substring(0, 10) : null;
   }
 
   set instantFormatted(e) {
   	//need to try to keep the same hours, seconds, milliseconds on edits
-  	//console.log(e);
-  	//let newDate = new Date(Date.UTC(e));
   	let newDate = new Date(e);
   	let now = new Date();
-  	//console.log(newDate);
   	newDate.setHours(now.getHours(),now.getMinutes(),now.getSeconds(),now.getMilliseconds());
-  	//console.log(newDate);
   	if(!this.entry.instant) {
   		this.entry.instant = new Date();
   	}
@@ -86,9 +85,13 @@ export class JournalEntryComponent implements OnInit {
   }
 
   onChange() {
-  	if(this.entry.isValid()) {
-  	  this.blanket.emit(null);
-  	  this.journalService.commitEntry(this.entry);
-  	}
+    this.updates.next(this.entry);
+  }
+
+  commit(j) {
+    if(j.isValid()) {
+      this.blanket.emit(null);
+      this.journalService.commitEntry(j);
+    }
   }
 }

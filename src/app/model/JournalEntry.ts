@@ -53,7 +53,7 @@ export default class JournalEntry {
   	  _id: this.getId(),
   	  _rev: this._rev,
   	  note: this.note,
-  	  journalRecords: this.journalRecords.map((jr)=>jr.getCommittable())
+  	  journalRecords: this.journalRecords.sort((r1,r2) => r2.debit >= r1.debit ? 1 : -1).map((jr)=>jr.getCommittable())
   	};
   	return saveable;
   }

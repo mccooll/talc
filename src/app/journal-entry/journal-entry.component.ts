@@ -75,12 +75,7 @@ export class JournalEntryComponent implements OnInit {
         this.blankRecord.amount = null;
       });
       setTimeout(()=> {
-        let index = 1;
-        if(this.entry.journalRecords[this.entry.journalRecords.length-1].debit > 0)
-        {
-          index = 0;
-        }
-        this.records.nativeElement.lastChild.getElementsByTagName('input')[index].focus(); // this is awkward, also a user preference
+        this.records.nativeElement.lastChild.getElementsByTagName('input')[0].focus(); // this is awkward, also a user preference
       });
     }
   }

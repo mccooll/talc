@@ -1,12 +1,12 @@
-<div class="entry" [ngClass]="{'deleting': deleting}">
+<div class="entry" [ngClass]="{'deleting': deleting, 'editing': editing}">
 	<div class="date">
-		<p class="delete" *ngIf="entry.instant || entry.note || entry.journalRecords" (click)="delete()">✗</p>
+		<p class="delete" *ngIf="editing && (entry.instant || entry.note || entry.journalRecords)" (click)="delete()">✗</p>
 		<input type="date" [(ngModel)]="instantFormatted" (ngModelChange)="onChange()" />
 	</div>
 	<div class="details">
 		<div #records>
 			<div class="record" *ngFor="let record of entry.journalRecords; let i = index">
-				<p class="delete" (click)="deleteRecord(i)">✗</p>
+				<p class="delete" (click)="deleteRecord(i)" *ngIf="editing">✗</p>
 				<select class="account" [(ngModel)]="record.account" (ngModelChange)="onChange()">
 					<option [ngValue]="account" *ngFor="let account of accounts">{{account.name}}</option>
 				</select>
@@ -14,7 +14,7 @@
 				<input [disabled]="record.amount !==null && !record.credit" class="credit" type="number" step="0.01" min="0" [(ngModel)]="record.credit" (ngModelChange)="onChange()" />
 			</div>
 		</div>
-		<div class="record">
+		<div class="record" *ngIf="editing">
 			<p class="delete" style="visibility: hidden" (click)="deleteRecord(i)">✗</p>
 			<select class="account" [(ngModel)]="blankRecord.account" (ngModelChange)="onBlankRecordChange()">
 				<option [ngValue]="account" *ngFor="let account of accounts">{{account.name}}</option>

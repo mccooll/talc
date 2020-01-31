@@ -9,7 +9,7 @@ import { JournalService } from '../journal.service'
   styleUrls: ['./journal.component.less']
 })
 export class JournalComponent implements OnInit {
-  @Input() entries$: Observable<JournalEntry[]>;
+  entries$: Observable<JournalEntry[]>;
   @Input() accounts: Account[];
   blankEntry: JournalEntry;
 

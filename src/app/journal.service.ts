@@ -17,25 +17,37 @@ export class JournalService {
   }
 
   getEntries(filter:object): Observable<JournalEntry[]> {
-    let accounts = this.accountService.getAccounts();
+    
     return new Observable((observer) => {
-      let entries: JournalEntry[] = []; 
-      this.db.allDocs({
-        include_docs: true,
-        descending: true
-      }).then((result) => {
-        entries = [];
-        result.rows.forEach((row)=> {
-          entries.push(new JournalEntry(row.doc,accounts));
+      this.query(filter).then((entries) => observer.next(entries));
+      this.data.syncing.subscribe(() => {
+        console.log('syncing')
+        this.query(filter).then((entries) => {
+          console.log(entries)
+          observer.next(entries)
         });
-        observer.next(entries);
       });
     });
   }
 
-  deleteEntry(j: JournalEntry): JournalEntry[] {
+  query(filter:object): Promise<JournalEntry[]> {
+    let accounts = this.accountService.getAccounts();
+    let entries: JournalEntry[] = []; 
+    return this.db.allDocs({
+      include_docs: true,
+      descending: true
+    }).then((result) => {
+      entries = [];
+      result.rows.forEach((row)=> {
+        entries.push(new JournalEntry(row.doc,accounts));
+      });
+      //console.log(entries);
+      return entries;
+    });
+  }
+
+  deleteEntry(j: JournalEntry): void {
     this.db.remove(j.getCommittable());
-  	return deleted;
   }
 
   commitEntry(j: JournalEntry): Boolean {

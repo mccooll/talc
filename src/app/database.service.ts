@@ -10,7 +10,7 @@ export class DatabaseService {
   
   db:any;
   remotedb:any;
-  syncing:Observable;
+  syncing:Observable<any>;
 
   constructor() {
   	const user = localStorage.getItem('user') || 'default';

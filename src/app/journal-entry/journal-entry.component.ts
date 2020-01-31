@@ -14,6 +14,7 @@ export class JournalEntryComponent implements OnInit {
   @ViewChild('records', {static: false}) records: any;
   @Input() entry: JournalEntry;
   @Input() accounts: Account[];
+  @Input() editing: Boolean;
   @Output() blanket: EventEmitter<any> = new EventEmitter();
   private blankRecord: JournalRecord;
   private deleting: Boolean;

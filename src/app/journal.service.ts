@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, NgZone } from '@angular/core';
 import { AccountService } from './account.service'
 import { DatabaseService } from './database.service'
 import JournalEntry from './model/JournalEntry'
@@ -12,7 +12,7 @@ export class JournalService {
   entries: JournalEntry[] = [];
   db: any;
 
-  constructor(private accountService: AccountService, private data: DatabaseService) {
+  constructor(private accountService: AccountService, private data: DatabaseService, private _ngZone: NgZone) {
   	this.db = this.data.db;
   }
 
@@ -24,7 +24,9 @@ export class JournalService {
         console.log('syncing')
         this.query(filter).then((entries) => {
           console.log(entries)
-          observer.next(entries)
+          this._ngZone.run(() => {
+            observer.next(entries)
+          });
         });
       });
     });

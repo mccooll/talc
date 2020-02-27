@@ -1,17 +1,17 @@
 <div class="entry" [ngClass]="{'deleting': deleting, 'editing': editing}">
 	<div class="date">
 		<p class="delete" *ngIf="editing && (entry.instant || entry.note || entry.journalRecords)" (click)="delete()">✗</p>
-		<input type="date" [(ngModel)]="instantFormatted" (ngModelChange)="onChange()" />
+		<input type="date" [(ngModel)]="instantFormatted" (ngModelChange)="onChange()" [disabled]="!editing" />
 	</div>
 	<div class="details">
 		<div #records>
 			<div class="record" *ngFor="let record of entry.journalRecords; let i = index">
 				<p class="delete" (click)="deleteRecord(i)" *ngIf="editing">✗</p>
-				<select class="account" [ngClass]="{'credit': record.credit > 0}" [(ngModel)]="record.account" (ngModelChange)="onChange()">
+				<select class="account" [ngClass]="{'credit': record.credit > 0}" [(ngModel)]="record.account" (ngModelChange)="onChange()" [disabled]="!editing">
 					<option [ngValue]="account" *ngFor="let account of accounts">{{account.name}}</option>
 				</select>
-				<input [disabled]="record.amount !==null && !record.debit" class="debit" type="number" step="0.01" min="0" [(ngModel)]="record.debit" (ngModelChange)="onChange()" />
-				<input [disabled]="record.amount !==null && !record.credit" class="credit" type="number" step="0.01" min="0" [(ngModel)]="record.credit" (ngModelChange)="onChange()" />
+				<input [disabled]="record.amount !==null && !record.debit || !editing" class="debit" type="number" step="0.01" min="0" [(ngModel)]="record.debit" (ngModelChange)="onChange()" />
+				<input [disabled]="record.amount !==null && !record.credit || !editing" class="credit" type="number" step="0.01" min="0" [(ngModel)]="record.credit" (ngModelChange)="onChange()" />
 			</div>
 		</div>
 		<div class="record" *ngIf="editing">
@@ -23,6 +23,6 @@
 			<input class="credit" type="number" step="0.01" min="0" [(ngModel)]="blankRecord.credit" (ngModelChange)="onBlankRecordChange()" />
 		</div>
 
-		<input class="note" type="text" [(ngModel)]="entry.note" (ngModelChange)="onChange()" />
+		<input class="note" type="text" [(ngModel)]="entry.note" (ngModelChange)="onChange()" [disabled]="!editing" />
 	</div>
 </div>

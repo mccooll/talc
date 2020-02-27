@@ -37,7 +37,7 @@ Invoice paid
 Future: multi-currency support
 
 Implementation:
-1 View: Journal w/ filter by account, filter by date range, add new journal entry (unlimited number of accounts - verifies DR/CR balance on submit). Clicking on account shows details of account without navigating, including balance.
+1 View: Journal w/ filter by account 💳, filter by date range 📅, add new journal entry (unlimited number of accounts - verifies DR/CR balance on submit). Clicking on account shows details of account without navigating, including balance.
 	Components: Amount Component
 	Journal Entry Component: Collection of Amounts, date, note
 	Filter component: Gives filters to journal component

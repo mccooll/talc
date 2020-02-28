@@ -8,8 +8,9 @@
 		<option>Client Owed Journal Entry</option>
 		<option>Account</option>
 	</select></p>
+	<app-account [account]="blankAccount" ></app-account>
 	<app-journal-entry [entry]="blankEntry" [accounts]="accounts" (blanket)="addValidBlank()" [editing]="true"></app-journal-entry>
 	<p>⌚ Recent</p>
 	<p>📜 General Journal with 💳 all accounts and 📅 all dates</p>
-	<app-journal-entry *ngFor="let entry of entries$ | async" [entry]="entry" [accounts]="accounts" [editing]="false"></app-journal-entry>
+	<!--<app-journal-entry *ngFor="let entry of entries$ | async" [entry]="entry" [accounts]="accounts" [editing]="false"></app-journal-entry>-->
 </div>

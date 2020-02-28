@@ -1,0 +1,24 @@
+<div class="account" [ngClass]="{'deleting': deleting, 'editing': editing}">
+	<div class="number">
+		<p class="delete" (click)="delete()">✗</p>
+		<input type="number" [(ngModel)]="account.number" (ngModelChange)="onChange()" placeholder="Number..."/>
+	</div>
+	<div class="name">
+		<input type="text" [(ngModel)]="account.name" (ngModelChange)="onChange()" placeholder="Name..." />
+	</div>
+	<div class="description">
+		<input type="text" [(ngModel)]="account.description" (ngModelChange)="onChange()" placeholder="Description..." />
+	</div>
+	<div class="category">
+		<select class="account" [(ngModel)]="account.category" (ngModelChange)="onChange()" placeholder="Category..." required>
+			<option [ngValue]="undefined" hidden disabled selected>Category...</option>
+			<option [ngValue]="category" *ngFor="let category of categories">{{category.name}}</option>
+		</select>
+	</div>
+	<div class="balance">
+		<select class="account" [(ngModel)]="account.balanceType" (ngModelChange)="onChange()" required>
+			<option [ngValue]="undefined" hidden disabled selected>Balance...</option>
+			<option [ngValue]="balanceType" *ngFor="let balanceType of balanceTypes">{{balanceType.name}} {{balanceType.shortName}}</option>
+		</select>
+	</div>
+</div>

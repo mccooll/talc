@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { JournalEntryComponent } from './journal-entry/journal-entry.component';
 import { FormsModule } from '@angular/forms';
 import { JournalComponent } from './journal/journal.component';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     JournalEntryComponent,
-    JournalComponent
+    JournalComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,

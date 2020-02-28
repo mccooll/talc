@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import JournalEntry from '../model/JournalEntry';
+import Account from '../model/Account';
 import { bindCallback, Observable, of } from 'rxjs';
 import { JournalService } from '../journal.service'
 
@@ -12,9 +13,11 @@ export class JournalComponent implements OnInit {
   entries$: Observable<JournalEntry[]>;
   @Input() accounts: Account[];
   blankEntry: JournalEntry;
+  blankAccount: Account;
 
   constructor(private journalService: JournalService) {
   	this.blankEntry = new JournalEntry();
+    this.blankAccount = new Account();
   }
 
   ngOnInit() {

@@ -21,7 +21,7 @@ class Category {
 
 export default class Account extends Category {
   private _rev: string;
-  number: number;
+  number: string;
   category: Category;
   static categories: Category[] = [ 
     new Category({name:"Assets", balanceType: Account.balanceTypes.dr}),
@@ -30,10 +30,26 @@ export default class Account extends Category {
     new Category({name:"Revenue", balanceType: Account.balanceTypes.cr}),
     new Category({name:"Expense", balanceType: Account.balanceTypes.dr})
   ];
+
+  isValid(): Boolean {
+    if(!this.number || !RegExp(/^\d+$/).test(this.number)) {
+      return false;
+    }
+    if(!this.name) {
+      return false;
+    }
+    if(!this.category) {
+      return false;
+    }
+    if(!this.balanceType) {
+      return false;
+    }
+    return true;
+  }
   
   getCommittable(): Object {
     let saveable: Object = {
-      _id: this.number,
+      _id: this.number.toString(),
       _rev: this._rev,
       number: this.number,
       name: this.name,

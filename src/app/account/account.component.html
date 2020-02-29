@@ -1,7 +1,7 @@
 <div class="account" [ngClass]="{'deleting': deleting, 'editing': editing}">
 	<div class="number">
 		<p class="delete" (click)="delete()">✗</p>
-		<input type="number" [(ngModel)]="account.number" (ngModelChange)="onChange()" placeholder="Number..."/>
+		<input type="text" [(ngModel)]="account.number" (ngModelChange)="onChange()" placeholder="Number..." pattern="\d+" />
 	</div>
 	<div class="name">
 		<input type="text" [(ngModel)]="account.name" (ngModelChange)="onChange()" placeholder="Name..." />

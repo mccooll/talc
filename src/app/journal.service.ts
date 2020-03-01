@@ -14,10 +14,17 @@ export class JournalService {
 
   constructor(private accountService: AccountService, private data: DatabaseService, private _ngZone: NgZone) {
   	this.db = this.data.db;
+    this.db.createIndex({
+      "index": {
+        "fields": [
+          "journalRecords.account"
+        ]
+      },
+      "type": "json"
+    });
   }
 
   getEntries(filter:object): Observable<JournalEntry[]> {
-    
     return new Observable((observer) => {
       this.query(filter).then((entries) => observer.next(entries));
       this.data.syncing.subscribe(() => {
@@ -32,20 +39,35 @@ export class JournalService {
     });
   }
 
-  query(filter:object): Promise<JournalEntry[]> {
-    let accounts = this.accountService.getAccounts();
+  async query(filter:object): Promise<JournalEntry[]> {
+    let accounts = await this.accountService.getAccounts();
     let entries: JournalEntry[] = []; 
-    return this.db.allDocs({
-      include_docs: true,
-      descending: true
-    }).then((result) => {
-      entries = [];
-      result.rows.forEach((row)=> {
-        entries.push(new JournalEntry(row.doc,accounts));
-      });
-      //console.log(entries);
-      return entries;
+    let result = await this.db.find({
+      // selector: {
+      //   "journalRecords": { "$exists": true }
+      // }
+      selector: {
+        "journalRecords": {
+          "$elemMatch": 
+          {
+            "account": 0
+          }
+        }
+      }
     });
+    console.log('hola')
+    console.log(result)
+    // let result = await this.db.allDocs({
+    //   include_docs: true,
+    //   descending: true
+    // });
+    // console.log(result);
+    // entries = [];
+    result.rows.forEach((row)=> {
+      entries.push(new JournalEntry(row.doc,accounts));
+    });
+    //console.log(entries);
+    return entries;
   }
 
   deleteEntry(j: JournalEntry): void {

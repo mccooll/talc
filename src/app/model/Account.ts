@@ -7,7 +7,7 @@ class BalanceType {
 }
 
 class Category {
-  constructor(obj) {
+  constructor(obj?) {
     obj && Object.assign(this, obj);
   }
   name: string;

@@ -13,9 +13,22 @@ export class AccountService {
   constructor(private data: DatabaseService) {
   	this.accounts = [];
     this.db = this.data.db;
+    this.db.createIndex({
+      "index": {
+        "fields": [
+          "number"
+        ]
+      },
+      "type": "json"
+    });
   }
 
-  getAccounts(): Account[] {
+  async getAccounts(): Promise<Account[]> {
+    this.accounts = await this.db.find({
+      selector: {
+        "number": { "$exists": true }
+      }
+    });
     return this.accounts;
   }
 

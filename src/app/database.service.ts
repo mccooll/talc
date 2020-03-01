@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import PouchDB from 'pouchdb';
+import PouchDBFind from 'pouchdb-find';
 import { bindCallback, Observable} from 'rxjs';
 
 
@@ -18,7 +19,9 @@ export class DatabaseService {
   	const serverAddress =  localStorage.getItem('server') ||'default';
   	const remoteDatabaseName =  localStorage.getItem('database') || 'default';
   	const remoteDatabasePort = 5984;
-  	const localDatabaseName = remoteDatabaseName;
+  	const localDatabaseName = "walc";
+
+  	PouchDB.plugin(PouchDBFind);
 
   	this.db = new PouchDB(localDatabaseName);
     this.remotedb = new PouchDB(`http://${user}:${password}@${serverAddress}:${remoteDatabasePort}/${remoteDatabaseName}`);
